@@ -1,0 +1,159 @@
+package com.anggara.compose_lib.ui.input
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import com.anggara.compose_lib.theme.Neutral10
+import com.anggara.compose_lib.theme.Neutral20
+import com.anggara.compose_lib.theme.Neutral40
+import com.anggara.compose_lib.theme.Neutral70
+import com.anggara.compose_lib.theme.Neutral90
+import com.anggara.compose_lib.theme.space
+import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BaseInput(
+    value: String,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = false,
+    maxLines: Int = Int.MAX_VALUE,
+    enable: Boolean = true,
+    isDecimalInput: Boolean = false,
+    isNumberInput: Boolean = false,
+    isPasswordInput: Boolean = false,
+    textAlign: TextAlign = TextAlign.Start,
+    textColor: Color = Color.Neutral90,
+    tintColor: Color = Color.Neutral70,
+    borderColor: Color = Color.Neutral40,
+    backgroundColor: Color = Color.Neutral10,
+    disableBackgroundColor: Color = Color.Neutral20,
+    radius: Dp = space.x1,
+    trailingIconResId: Int = 0,
+    isNextSoftKeyboard: Boolean = false,
+    onValueChange: (String) -> Unit = {},
+    onDone: (String) -> Unit = {},
+    onClick: () -> Unit = {},
+    onTrailingIconClick: () -> Unit = {},
+) {
+    var passwordVisibleState by remember {
+        mutableStateOf(false)
+    }
+
+    val visualTransformation: VisualTransformation =
+        if (!passwordVisibleState && isPasswordInput) PasswordVisualTransformation()
+        else VisualTransformation.None
+
+    val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    val focusManager = LocalFocusManager.current
+    val coroutineScope = rememberCoroutineScope()
+
+    BasicTextField(
+        value = value,
+        readOnly = !enable,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = if (!enable) disableBackgroundColor else backgroundColor,
+                shape = RoundedCornerShape(radius)
+            )
+            .clickable { onClick.invoke() },
+        textStyle = MaterialTheme.typography.bodySmall.copy(
+            color = textColor,
+            textAlign = textAlign
+        ),
+        visualTransformation = visualTransformation,
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                onDone.invoke(value)
+            }
+        ),
+        keyboardOptions = when {
+            isPasswordInput -> KeyboardOptions(keyboardType = KeyboardType.Password)
+            isNumberInput -> KeyboardOptions(keyboardType = KeyboardType.Number)
+            !isNextSoftKeyboard -> KeyboardOptions.Default
+            else -> KeyboardOptions(imeAction = ImeAction.Next)
+        },
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+
+        decorationBox = @Composable { innerTextField ->
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = value,
+                placeholder = {
+                    TextBodyMediumRegular(text = placeholder, color = Color.Neutral40)
+                },
+                innerTextField = innerTextField,
+                enabled = enable,
+                singleLine = singleLine,
+                visualTransformation = visualTransformation,
+                interactionSource = interactionSource,
+                contentPadding = PaddingValues(space.x1),
+                trailingIcon = if (!isPasswordInput && trailingIconResId == 0) null else {
+                    {
+                        if (trailingIconResId != 0) {
+                            Icon(
+                                painter = painterResource(id = trailingIconResId),
+                                contentDescription = placeholder,
+                                tint = tintColor,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(space.x2))
+                                    .clickable {
+                                        onTrailingIconClick.invoke()
+                                    }
+                                    .size(space.x3)
+                                    .padding(space.x1 / 2)
+                            )
+                        }
+
+                        if (isPasswordInput) {
+                            IconButton(onClick = { passwordVisibleState = !passwordVisibleState }) {
+                                Icon(
+                                    imageVector = if (passwordVisibleState) Icons.Filled.Visibility
+                                    else Icons.Filled.VisibilityOff,
+                                    contentDescription = "password"
+                                )
+                            }
+                        }
+                    }
+                }
+            )
+        },
+        onValueChange = { onValueChange.invoke(it) })
+
+}
