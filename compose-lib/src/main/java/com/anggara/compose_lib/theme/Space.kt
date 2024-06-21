@@ -7,7 +7,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class Space(
+    val half: Dp = 4.dp,
     val x1: Dp = 8.dp,
+    val x1Half: Dp = 12.dp,
     val x2: Dp = 16.dp,
     val x3: Dp = 24.dp,
     val x4: Dp = 32.dp,

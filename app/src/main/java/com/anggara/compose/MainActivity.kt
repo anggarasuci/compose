@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.anggara.compose.ui.theme.ComposeComponentTheme
 import com.anggara.compose_lib.theme.space
+import com.anggara.compose_lib.ui.input.InputNumber
+import com.anggara.compose_lib.ui.input.InputPassword
 import com.anggara.compose_lib.ui.input.InputText
 import com.anggara.compose_lib.ui.text.TextBodyMediumBold
 
@@ -88,11 +90,36 @@ fun Input(onBack: () -> Unit) {
     var state by remember {
         mutableStateOf("")
     }
+
+    var statePassword by remember {
+        mutableStateOf("")
+    }
+
+    var stateNumber by remember {
+        mutableStateOf("")
+    }
+
     BaseScreen(onBack = onBack) {
         InputText(
-            label = "Nama",
-            placeholder = "Input Nama",
+            label = "Name",
+            isError = state == "error",
+            errorMessage = if (state == "error") "Error Name Please Input Other Name" else "",
+            placeholder = "Input Name, type `error` for trigger error for example only",
             value = state,
             onValueChange = { state = it })
+        Spacer(modifier = Modifier.height(space.x5))
+
+        InputPassword(
+            label = "Password",
+            placeholder = "Input Password",
+            value = statePassword,
+            onValueChange = { statePassword = it })
+        Spacer(modifier = Modifier.height(space.x5))
+
+        InputNumber(
+            label = "Number",
+            placeholder = "Input Number",
+            value = stateNumber,
+            onValueChange = { stateNumber = it })
     }
 }

@@ -7,7 +7,7 @@ import com.anggara.compose_lib.theme.DangerMain
 import com.anggara.compose_lib.theme.Neutral40
 
 @Composable
-fun InputText(
+fun InputNumber(
     label: String,
     placeholder: String,
     value: String,
@@ -19,6 +19,7 @@ fun InputText(
 ) {
     InputView(label = label, isError = isError, errorMessage = errorMessage, modifier = modifier) {
         BaseInput(
+            isNumberInput = true,
             value = value,
             placeholder = placeholder,
             borderColor = if (isError) Color.DangerMain else borderColor,

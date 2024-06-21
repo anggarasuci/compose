@@ -1,10 +1,15 @@
 package com.anggara.compose_lib.ui.input
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,6 +41,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.anggara.compose_lib.theme.DangerMain
 import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral20
 import com.anggara.compose_lib.theme.Neutral40
@@ -43,6 +51,8 @@ import com.anggara.compose_lib.theme.Neutral70
 import com.anggara.compose_lib.theme.Neutral90
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+import com.anggara.compose_lib.ui.text.TextBodySmallRegular
+import com.anggara.compose_lib.utils.scaledSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,6 +84,8 @@ fun BaseInput(
         mutableStateOf(false)
     }
 
+    val textStyle = MaterialTheme.typography.bodyMedium
+
     val visualTransformation: VisualTransformation =
         if (!passwordVisibleState && isPasswordInput) PasswordVisualTransformation()
         else VisualTransformation.None
@@ -88,13 +100,15 @@ fun BaseInput(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = if (!enable) disableBackgroundColor else backgroundColor,
-                shape = RoundedCornerShape(radius)
+                color = if (!enable) disableBackgroundColor else backgroundColor
             )
             .clickable { onClick.invoke() },
-        textStyle = MaterialTheme.typography.bodySmall.copy(
+        textStyle = textStyle.copy(
             color = textColor,
-            textAlign = textAlign
+            textAlign = textAlign,
+            fontSize = textStyle.fontSize.value.scaledSize().sp,
+            lineHeight = textStyle.lineHeight.value.scaledSize().sp,
+            letterSpacing = textStyle.letterSpacing.value.scaledSize().sp
         ),
         visualTransformation = visualTransformation,
         keyboardActions = KeyboardActions(
@@ -111,7 +125,6 @@ fun BaseInput(
         },
         interactionSource = interactionSource,
         singleLine = singleLine,
-
         decorationBox = @Composable { innerTextField ->
             OutlinedTextFieldDefaults.DecorationBox(
                 value = value,
@@ -120,10 +133,11 @@ fun BaseInput(
                 },
                 innerTextField = innerTextField,
                 enabled = enable,
+                isError = true,
                 singleLine = singleLine,
                 visualTransformation = visualTransformation,
                 interactionSource = interactionSource,
-                contentPadding = PaddingValues(space.x1),
+                contentPadding = PaddingValues(space.x1Half),
                 trailingIcon = if (!isPasswordInput && trailingIconResId == 0) null else {
                     {
                         if (trailingIconResId != 0) {
@@ -136,8 +150,6 @@ fun BaseInput(
                                     .clickable {
                                         onTrailingIconClick.invoke()
                                     }
-                                    .size(space.x3)
-                                    .padding(space.x1 / 2)
                             )
                         }
 
@@ -146,14 +158,51 @@ fun BaseInput(
                                 Icon(
                                     imageVector = if (passwordVisibleState) Icons.Filled.Visibility
                                     else Icons.Filled.VisibilityOff,
+                                    tint = tintColor,
                                     contentDescription = "password"
                                 )
                             }
                         }
                     }
+                },
+                container = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp)
+                            .border(
+                                width = 2.dp,
+                                color = borderColor,
+                                shape = RoundedCornerShape(radius)
+                            )
+                    )
                 }
             )
         },
         onValueChange = { onValueChange.invoke(it) })
+}
 
+@Composable
+fun InputView(
+    label: String,
+    isError: Boolean,
+    errorMessage: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier = modifier) {
+        TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.half))
+        Spacer(modifier = Modifier.height(space.half))
+
+        content()
+
+        if (errorMessage.isNotBlank() || isError) {
+            Spacer(modifier = Modifier.height(space.half))
+            TextBodySmallRegular(
+                text = errorMessage,
+                color = Color.DangerMain,
+                modifier = Modifier.padding(horizontal = space.x1Half)
+            )
+        }
+    }
 }
