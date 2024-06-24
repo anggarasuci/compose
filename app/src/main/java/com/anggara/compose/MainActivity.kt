@@ -27,6 +27,7 @@ import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.input.InputNumber
 import com.anggara.compose_lib.ui.input.InputPassword
 import com.anggara.compose_lib.ui.input.InputText
+import com.anggara.compose_lib.ui.signature.SignatureView
 import com.anggara.compose_lib.ui.text.TextBodyMediumBold
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +41,8 @@ class MainActivity : ComponentActivity() {
             ComposeComponentTheme {
                 when (state) {
                     "menu" -> Menu(onClick = { state = it })
-                    "input" -> Input(onBack = { state = "menu" })
+                    "input" -> InputPage(onBack = { state = "menu" })
+                    "signature" -> SignaturePage(onBack = { state = "menu" })
                 }
             }
         }
@@ -65,6 +67,10 @@ fun Menu(
             Button(onClick = { onClick.invoke("input") }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Input Text")
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { onClick.invoke("signature") }, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Signature")
+            }
         }
     }
 
@@ -76,17 +82,19 @@ fun BaseScreen(onBack: () -> Unit, content: @Composable () -> Unit) {
         modifier = Modifier
             .padding(horizontal = space.x2, vertical = space.x4)
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         content()
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { onBack.invoke() }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Back to Menu")
         }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
 @Composable
-fun Input(onBack: () -> Unit) {
+fun InputPage(onBack: () -> Unit) {
     var state by remember {
         mutableStateOf("")
     }
@@ -121,5 +129,12 @@ fun Input(onBack: () -> Unit) {
             placeholder = "Input Number",
             value = stateNumber,
             onValueChange = { stateNumber = it })
+    }
+}
+
+@Composable
+fun SignaturePage(onBack: () -> Unit) {
+    BaseScreen(onBack = onBack) {
+        SignatureView()
     }
 }

@@ -171,7 +171,7 @@ fun BaseInput(
                             .fillMaxWidth()
                             .padding(0.dp)
                             .border(
-                                width = 2.dp,
+                                width = 1.5.dp,
                                 color = borderColor,
                                 shape = RoundedCornerShape(radius)
                             )

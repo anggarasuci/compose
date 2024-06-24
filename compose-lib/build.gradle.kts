@@ -45,4 +45,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material.icons)
+    implementation("io.github.joelkanyi:sain:2.0.3")
+
 }
