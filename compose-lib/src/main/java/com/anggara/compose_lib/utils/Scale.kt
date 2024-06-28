@@ -7,14 +7,13 @@ import androidx.compose.ui.unit.Dp
 @Composable
 private fun getScaleFactor(): Float {
     val configuration = LocalConfiguration.current
-    //val density = Density(configuration.densityDpi / 160f)
     val screenWidthDp = configuration.screenWidthDp
 
     return when {
         screenWidthDp > 800 -> 1.3f // xLarge
         screenWidthDp > 600 -> 1.15f // Large
         else -> 1.0f // Normal
-    } //* LocalDensity.current.density
+    }
 }
 
 

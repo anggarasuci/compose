@@ -28,11 +28,11 @@ fun IconButton(
     backgroundColor: Color = Color.Neutral50,
     disableColor: Color = Color.Neutral30,
     isBorder: Boolean = false,
-    size: Dp = space.x5,
+    size: Dp = space.x10,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    val shape = RoundedCornerShape(space.x1)
+    val shape = RoundedCornerShape(space.x2)
     Icon(
         imageVector = vector,
         tint = tint,
@@ -52,6 +52,6 @@ fun IconButton(
                 onClick.invoke()
             }
             .size(size)
-            .padding(space.x1)
+            .padding(space.x2)
     )
 }

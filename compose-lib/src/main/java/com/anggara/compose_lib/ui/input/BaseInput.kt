@@ -72,7 +72,7 @@ fun BaseInput(
     borderColor: Color = Color.Neutral40,
     backgroundColor: Color = Color.Neutral10,
     disableBackgroundColor: Color = Color.Neutral20,
-    radius: Dp = space.x1,
+    radius: Dp = space.x2,
     trailingIconResId: Int = 0,
     isNextSoftKeyboard: Boolean = false,
     onValueChange: (String) -> Unit = {},
@@ -137,7 +137,7 @@ fun BaseInput(
                 singleLine = singleLine,
                 visualTransformation = visualTransformation,
                 interactionSource = interactionSource,
-                contentPadding = PaddingValues(space.x1Half),
+                contentPadding = PaddingValues(space.x3),
                 trailingIcon = if (!isPasswordInput && trailingIconResId == 0) null else {
                     {
                         if (trailingIconResId != 0) {
@@ -146,7 +146,7 @@ fun BaseInput(
                                 contentDescription = placeholder,
                                 tint = tintColor,
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(space.x2))
+                                    .clip(RoundedCornerShape(space.x4))
                                     .clickable {
                                         onTrailingIconClick.invoke()
                                     }
@@ -191,17 +191,17 @@ fun InputView(
     content: @Composable () -> Unit
 ) {
     Column(modifier = modifier) {
-        TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.half))
-        Spacer(modifier = Modifier.height(space.half))
+        TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.x1))
+        Spacer(modifier = Modifier.height(space.x1))
 
         content()
 
         if (errorMessage.isNotBlank() || isError) {
-            Spacer(modifier = Modifier.height(space.half))
+            Spacer(modifier = Modifier.height(space.x1))
             TextBodySmallRegular(
                 text = errorMessage,
                 color = Color.DangerMain,
-                modifier = Modifier.padding(horizontal = space.x1Half)
+                modifier = Modifier.padding(horizontal = space.x3)
             )
         }
     }

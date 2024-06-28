@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.anggara.compose.ui.theme.ComposeComponentTheme
 import com.anggara.compose_lib.theme.space
+import com.anggara.compose_lib.ui.button.LeadingTrailingButton
 import com.anggara.compose_lib.ui.input.InputNumber
 import com.anggara.compose_lib.ui.input.InputPassword
 import com.anggara.compose_lib.ui.input.InputText
@@ -43,6 +47,7 @@ class MainActivity : ComponentActivity() {
                     "menu" -> Menu(onClick = { state = it })
                     "input" -> InputPage(onBack = { state = "menu" })
                     "signature" -> SignaturePage(onBack = { state = "menu" })
+                    "button" -> ButtonPage(onBack = { state = "menu" })
                 }
             }
         }
@@ -55,11 +60,11 @@ fun Menu(
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = space.x2, vertical = space.x4)
+            .padding(horizontal = space.x4, vertical = space.x8)
             .fillMaxSize()
     ) {
         TextBodyMediumBold(text = "Menu", textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(space.x2))
+        Spacer(modifier = Modifier.height(space.x4))
         Column(
             modifier = Modifier
                 .verticalScroll(state = rememberScrollState())
@@ -71,6 +76,10 @@ fun Menu(
             Button(onClick = { onClick.invoke("signature") }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Signature")
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { onClick.invoke("button") }, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Button")
+            }
         }
     }
 
@@ -80,7 +89,7 @@ fun Menu(
 fun BaseScreen(onBack: () -> Unit, content: @Composable () -> Unit) {
     Column(
         modifier = Modifier
-            .padding(horizontal = space.x2, vertical = space.x4)
+            .padding(horizontal = space.x4, vertical = space.x8)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
@@ -115,14 +124,14 @@ fun InputPage(onBack: () -> Unit) {
             placeholder = "Input Name, type `error` for trigger error for example only",
             value = state,
             onValueChange = { state = it })
-        Spacer(modifier = Modifier.height(space.x5))
+        Spacer(modifier = Modifier.height(space.x10))
 
         InputPassword(
             label = "Password",
             placeholder = "Input Password",
             value = statePassword,
             onValueChange = { statePassword = it })
-        Spacer(modifier = Modifier.height(space.x5))
+        Spacer(modifier = Modifier.height(space.x10))
 
         InputNumber(
             label = "Number",
@@ -136,5 +145,18 @@ fun InputPage(onBack: () -> Unit) {
 fun SignaturePage(onBack: () -> Unit) {
     BaseScreen(onBack = onBack) {
         SignatureView()
+    }
+}
+
+@Composable
+fun ButtonPage(onBack: () -> Unit) {
+    BaseScreen(onBack = onBack) {
+        LeadingTrailingButton(
+            text = "Test",
+            leadingIconVector = Icons.Filled.AddAPhoto,
+            trailingIconVector = Icons.Default.ChevronRight
+        ) {
+
+        }
     }
 }
