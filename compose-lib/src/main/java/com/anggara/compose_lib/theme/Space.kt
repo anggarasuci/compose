@@ -23,6 +23,11 @@ data class Space(
     val x14: Dp = 56.dp,
     val x15: Dp = 60.dp,
     val x16: Dp = 64.dp,
+    val x17: Dp = 68.dp,
+    val x18: Dp = 72.dp,
+    val x19: Dp = 76.dp,
+    val x20: Dp = 80.dp,
+    val buttonBorder: Dp = 1.1.dp
 )
 
 val LocalSpace = compositionLocalOf { Space() }

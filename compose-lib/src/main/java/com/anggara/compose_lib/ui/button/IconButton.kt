@@ -30,6 +30,7 @@ fun IconButton(
     isBorder: Boolean = false,
     size: Dp = space.x10,
     enabled: Boolean = true,
+    borderWidth: Dp = space.buttonBorder,
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(space.x2)
@@ -41,7 +42,7 @@ fun IconButton(
             .clip(shape)
             .background(color = if (enabled) backgroundColor else disableColor)
             .border(
-                width = 1.dp,
+                width = borderWidth,
                 color = if (isBorder && enabled) tint else disableColor,
                 shape = shape
             )

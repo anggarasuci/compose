@@ -13,6 +13,11 @@ val Color.Companion.Neutral80 get() = Color(0xFF616161)
 val Color.Companion.Neutral90 get() = Color(0xFF404040)
 val Color.Companion.Neutral100 get() = Color(0xFF0A0A0A)
 
+val Color.Companion.PrimaryMain get() = Color(0xFF285698)
+val Color.Companion.PrimarySurface get() = Color(0xFFEFF2F8)
+val Color.Companion.PrimaryBorder get() = Color(0xFFA9C0E0)
+val Color.Companion.PrimaryHover get() = Color(0xFF1A3C6D)
+
 val Color.Companion.SuccessMain get() = Color(0xFF5CB489)
 val Color.Companion.SuccessSurface get() = Color(0xFFEEFFF6)
 val Color.Companion.SuccessBorder get() = Color(0xFFB8DBCA)

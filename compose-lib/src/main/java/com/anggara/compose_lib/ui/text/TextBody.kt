@@ -1,6 +1,5 @@
 package com.anggara.compose_lib.ui.text
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +34,7 @@ fun TextBodySmallRegular(
         fontSize = style.fontSize.value.scaledSize().sp,
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -62,7 +61,7 @@ fun TextBodySmallBold(
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         fontWeight = FontWeight.Bold,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -89,7 +88,7 @@ fun TextBodyMedium(
         fontSize = style.fontSize.value.scaledSize().sp,
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -115,7 +114,7 @@ fun TextBodyMediumRegular(
         fontSize = style.fontSize.value.scaledSize().sp,
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -141,7 +140,7 @@ fun TextBodyMediumBold(
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         fontWeight = FontWeight.Bold,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -167,7 +166,7 @@ fun TextBodyLargeRegular(
         fontSize = style.fontSize.value.scaledSize().sp,
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )
@@ -193,7 +192,7 @@ fun TextBodyLargeBold(
         letterSpacing = style.letterSpacing.value.scaledSize().sp,
         fontWeight = FontWeight.Bold,
         maxLines = maxLines,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         color = color,
         textAlign = textAlign
     )

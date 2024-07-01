@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral40
 import com.anggara.compose_lib.theme.Neutral70
@@ -40,13 +41,14 @@ fun TrailingButton(
     iconColor: Color = Color.Neutral70,
     radius: Dp = space.x2,
     contentPadding: PaddingValues = PaddingValues(vertical = space.x2, horizontal = space.x3),
+    borderWidth: Dp = space.buttonBorder,
     onClick: () -> Unit
 ) {
     val color = ButtonDefaults.buttonColors().copy(
         containerColor = backgroundColor,
         contentColor = textColor
     )
-    val border = BorderStroke(width = space.x1 / 2, color = borderColor)
+    val border = BorderStroke(width = borderWidth, color = borderColor)
     val shape = RoundedCornerShape(radius)
     Button(
         onClick = { onClick.invoke() },
@@ -95,13 +97,14 @@ fun TrailingButton(
     iconColor: Color = Color.Neutral70,
     radius: Dp = space.x2,
     contentPadding: PaddingValues = PaddingValues(vertical = space.x2, horizontal = space.x3),
+    borderWidth: Dp = space.buttonBorder,
     onClick: () -> Unit
 ) {
     val color = ButtonDefaults.buttonColors().copy(
         containerColor = backgroundColor,
         contentColor = textColor
     )
-    val border = BorderStroke(width = space.x1 / 2, color = borderColor)
+    val border = BorderStroke(width = borderWidth, color = borderColor)
     val shape = RoundedCornerShape(radius)
     Button(
         onClick = { onClick.invoke() },

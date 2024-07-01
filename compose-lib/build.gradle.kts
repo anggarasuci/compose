@@ -51,5 +51,5 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material.icons)
     implementation(libs.sain)
-
+    implementation(libs.androidx.activity.compose)
 }
