@@ -1,8 +1,6 @@
 package com.anggara.compose_lib.ui.bottom_sheet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +16,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -42,7 +39,7 @@ import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.button.Button
 import com.anggara.compose_lib.ui.text.TextBodyMedium
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
-import kotlinx.coroutines.delay
+import com.anggara.compose_lib.utils.clickableWithRipple
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,18 +107,9 @@ fun BottomSheetMultipleSelection(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(
-                                    color = Color.Neutral50
-                                ),
-                                onClick = {
-                                    coroutineScope.launch {
-                                        delay(100)
-                                        onSelect(it.value, !selectedValueState.contains(it.value))
-                                    }
-                                }
-                            )
+                            .clickableWithRipple {
+                                onSelect(it.value, !selectedValueState.contains(it.value))
+                            }
                             .background(
                                 Color.Neutral10
                             )
@@ -134,7 +122,9 @@ fun BottomSheetMultipleSelection(
                             contentDescription = "checkbox multi selection",
                             tint = if (selectedValueState.contains(it.value)) Color.PrimaryMain
                             else Color.Neutral40,
-                            modifier = Modifier.size(space.x8).padding(top = space.x1)
+                            modifier = Modifier
+                                .size(space.x8)
+                                .padding(top = space.x1)
                         )
                         Spacer(modifier = Modifier.width(space.x1))
                         TextBodyMedium(

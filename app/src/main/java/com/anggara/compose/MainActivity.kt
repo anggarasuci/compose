@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,9 +22,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.anggara.compose.ui.theme.ComposeComponentTheme
+import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetMultipleSelection
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetSelection
@@ -34,17 +36,19 @@ import com.anggara.compose_lib.ui.bottom_sheet.OptionModel
 import com.anggara.compose_lib.ui.button.LeadingButton
 import com.anggara.compose_lib.ui.button.LeadingTrailingButton
 import com.anggara.compose_lib.ui.button.TrailingButton
+import com.anggara.compose_lib.ui.expandable.ExpandableView
 import com.anggara.compose_lib.ui.input.InputNumber
 import com.anggara.compose_lib.ui.input.InputPassword
 import com.anggara.compose_lib.ui.input.InputText
 import com.anggara.compose_lib.ui.signature.SignatureView
 import com.anggara.compose_lib.ui.text.TextBodyMediumBold
+import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
-        //WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             var state by remember {
                 mutableStateOf("menu")
@@ -56,6 +60,7 @@ class MainActivity : ComponentActivity() {
                     "signature" -> SignaturePage(onBack = { state = "menu" })
                     "button" -> ButtonPage(onBack = { state = "menu" })
                     "bottomSheet" -> BottomSheetPage(onBack = { state = "menu" })
+                    "expandable" -> ExpandablePage(onBack = { state = "menu" })
                 }
             }
         }
@@ -94,6 +99,13 @@ fun Menu(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Bottom Sheet")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = { onClick.invoke("expandable") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Expandable")
             }
         }
     }
@@ -179,7 +191,6 @@ fun ButtonPage(onBack: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetPage(onBack: () -> Unit) {
     BaseScreen(onBack = onBack) {
@@ -322,5 +333,24 @@ fun BottomSheetPage(onBack: () -> Unit) {
             onCancel = { },
             onDismiss = { multipleSelectionConfirmIsShown = false }
         )
+    }
+}
+
+@Composable
+fun ExpandablePage(onBack: () -> Unit) {
+    BaseScreen(onBack = onBack) {
+        ExpandableView(
+            expandableHoverColor = Color.Neutral10,
+            headContainerModifier = Modifier
+                .padding(space.x2),
+            headContent = {
+                TextBodyMediumBold(
+                    text = "Expandable",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }) {
+            TextBodyMediumRegular(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sem viverra aliquet eget sit amet. Nec dui nunc mattis enim ut. Cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla. Aliquet risus feugiat in ante metus dictum. Molestie a iaculis at erat.")
+        }
     }
 }

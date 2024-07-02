@@ -1,8 +1,6 @@
 package com.anggara.compose_lib.ui.bottom_sheet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -31,13 +28,14 @@ import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral50
 import com.anggara.compose_lib.theme.Neutral60
 import com.anggara.compose_lib.theme.Neutral90
+import com.anggara.compose_lib.theme.PrimaryHover
 import com.anggara.compose_lib.theme.PrimaryMain
 import com.anggara.compose_lib.theme.PrimarySurface
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.button.Button
 import com.anggara.compose_lib.ui.text.TextBodyMedium
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
-import kotlinx.coroutines.delay
+import com.anggara.compose_lib.utils.clickableWithRipple
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +48,7 @@ fun BottomSheetSelectionWithConfirmation(
     selectedValue: String = "",
     selectedTextColor: Color = Color.PrimaryMain,
     selectedBackgroundColor: Color = Color.PrimarySurface,
+    selectedHoverColor: Color = Color.PrimaryHover,
     cancelText: String = "Cancel",
     okText: String = "Ok",
     enableOk: Boolean = true,
@@ -100,18 +99,9 @@ fun BottomSheetSelectionWithConfirmation(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(
-                                    color = Color.Neutral50
-                                ),
-                                onClick = {
-                                    coroutineScope.launch {
-                                        delay(100)
-                                        selectedValueState = it.value
-                                    }
-                                }
-                            )
+                            .clickableWithRipple(color = selectedHoverColor) {
+                                selectedValueState = it.value
+                            }
                             .background(
                                 color = if (selectedValueState == it.value) selectedBackgroundColor
                                 else Color.Neutral10
