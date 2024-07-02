@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -52,4 +53,17 @@ dependencies {
     implementation(libs.androidx.material.icons)
     implementation(libs.sain)
     implementation(libs.androidx.activity.compose)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.anggarasuci"
+                artifactId = "compose-lib"
+                version = "1.0.0"
+            }
+        }
+    }
 }
