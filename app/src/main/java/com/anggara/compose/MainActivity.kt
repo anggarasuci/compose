@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -27,17 +28,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.anggara.compose.ui.theme.ComposeComponentTheme
-import com.anggara.compose_lib.theme.DangerMain
-import com.anggara.compose_lib.theme.DangerSurface
 import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral20
 import com.anggara.compose_lib.theme.Neutral30
-import com.anggara.compose_lib.theme.Neutral40
+import com.anggara.compose_lib.theme.PrimaryMain
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetMultipleSelection
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetSelection
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetSelectionWithConfirmation
 import com.anggara.compose_lib.ui.bottom_sheet.OptionModel
+import com.anggara.compose_lib.ui.button.IconButton
 import com.anggara.compose_lib.ui.button.LeadingButton
 import com.anggara.compose_lib.ui.button.LeadingTrailingButton
 import com.anggara.compose_lib.ui.button.TrailingButton
@@ -180,6 +180,18 @@ fun InputPage(onBack: () -> Unit) {
             placeholder = "Input Number",
             value = stateNumber,
             onValueChange = { stateNumber = it })
+
+        Spacer(modifier = Modifier.height(space.x10))
+
+        IconButton(
+            vector = Icons.Default.ChevronLeft,
+            borderWidth = 0.dp,
+            tint = Color.PrimaryMain,
+            size = 60.dp,
+            radius = space.x10,
+            padding = 0.dp,
+            backgroundColor = Color.Unspecified,
+            onClick = {})
     }
 }
 
