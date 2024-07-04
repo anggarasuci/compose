@@ -200,6 +200,7 @@ fun InputView(
     isError: Boolean,
     errorMessage: String,
     modifier: Modifier = Modifier,
+    errorTextColor: Color = Color.DangerMain,
     content: @Composable () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -213,7 +214,7 @@ fun InputView(
             Spacer(modifier = Modifier.height(space.x1))
             TextBodySmallRegular(
                 text = errorMessage,
-                color = Color.DangerMain,
+                color = errorTextColor,
                 modifier = Modifier.padding(horizontal = space.x3)
             )
         }

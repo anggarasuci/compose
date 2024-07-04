@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.anggara.compose_lib.theme.DangerMain
 import com.anggara.compose_lib.theme.Neutral40
 import com.anggara.compose_lib.theme.Neutral90
@@ -25,15 +26,18 @@ fun InputNumber(
     fontSize: Float = MaterialTheme.typography.bodyMedium.fontSize.value,
     isError: Boolean = false,
     errorMessage: String = "",
+    textAlign: TextAlign = TextAlign.Start,
+    errorTextColor: Color = Color.DangerMain,
     onValueChange: (String) -> Unit
 ) {
-    InputView(label = label, isError = isError, errorMessage = errorMessage, modifier = modifier) {
+    InputView(label = label, isError = isError, errorMessage = errorMessage, errorTextColor = errorTextColor, modifier = modifier) {
         BaseInput(
             isNumberInput = true,
             value = value,
             placeholder = placeholder,
-            borderColor = if (isError) Color.DangerMain else borderColor,
+            borderColor = if (isError) errorTextColor else borderColor,
             textColor = textColor,
+            textAlign = textAlign,
             placeholderTextColor = placeholderTextColor,
             fontFamily = fontFamily,
             fontWeight = fontWeight,
