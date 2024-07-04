@@ -27,7 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.anggara.compose.ui.theme.ComposeComponentTheme
+import com.anggara.compose_lib.theme.DangerMain
+import com.anggara.compose_lib.theme.DangerSurface
 import com.anggara.compose_lib.theme.Neutral10
+import com.anggara.compose_lib.theme.Neutral20
+import com.anggara.compose_lib.theme.Neutral30
+import com.anggara.compose_lib.theme.Neutral40
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetMultipleSelection
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetSelection
@@ -36,6 +41,7 @@ import com.anggara.compose_lib.ui.bottom_sheet.OptionModel
 import com.anggara.compose_lib.ui.button.LeadingButton
 import com.anggara.compose_lib.ui.button.LeadingTrailingButton
 import com.anggara.compose_lib.ui.button.TrailingButton
+import com.anggara.compose_lib.ui.card.CardContainer
 import com.anggara.compose_lib.ui.expandable.ExpandableView
 import com.anggara.compose_lib.ui.input.InputNumber
 import com.anggara.compose_lib.ui.input.InputPassword
@@ -61,6 +67,7 @@ class MainActivity : ComponentActivity() {
                     "button" -> ButtonPage(onBack = { state = "menu" })
                     "bottomSheet" -> BottomSheetPage(onBack = { state = "menu" })
                     "expandable" -> ExpandablePage(onBack = { state = "menu" })
+                    "card" -> CardPage(onBack = { state = "menu" })
                 }
             }
         }
@@ -106,6 +113,14 @@ fun Menu(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Expandable")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = { onClick.invoke("card") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Card")
             }
         }
     }
@@ -351,6 +366,15 @@ fun ExpandablePage(onBack: () -> Unit) {
                 )
             }) {
             TextBodyMediumRegular(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sem viverra aliquet eget sit amet. Nec dui nunc mattis enim ut. Cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla. Aliquet risus feugiat in ante metus dictum. Molestie a iaculis at erat.")
+        }
+    }
+}
+
+@Composable
+fun CardPage(onBack: () -> Unit) {
+    BaseScreen(onBack = onBack) {
+        CardContainer(borderColor = Color.Neutral30, backgroundColor = Color.Neutral20) {
+            TextBodyMediumRegular(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sem viverra aliquet eget sit amet.")
         }
     }
 }

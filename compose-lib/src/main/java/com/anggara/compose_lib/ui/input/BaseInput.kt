@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -35,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -49,8 +50,9 @@ import com.anggara.compose_lib.theme.Neutral20
 import com.anggara.compose_lib.theme.Neutral40
 import com.anggara.compose_lib.theme.Neutral70
 import com.anggara.compose_lib.theme.Neutral90
+import com.anggara.compose_lib.theme.jakartaSans
 import com.anggara.compose_lib.theme.space
-import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+import com.anggara.compose_lib.ui.text.Text
 import com.anggara.compose_lib.ui.text.TextBodySmallRegular
 import com.anggara.compose_lib.utils.scaledSize
 
@@ -72,6 +74,10 @@ fun BaseInput(
     borderColor: Color = Color.Neutral40,
     backgroundColor: Color = Color.Neutral10,
     disableBackgroundColor: Color = Color.Neutral20,
+    placeholderTextColor: Color = Color.Neutral40,
+    fontSize: Float = MaterialTheme.typography.bodyMedium.fontSize.value,
+    fontWeight: FontWeight = FontWeight.W500,
+    fontFamily: FontFamily = jakartaSans,
     radius: Dp = space.x2,
     trailingIconResId: Int = 0,
     isNextSoftKeyboard: Boolean = false,
@@ -106,9 +112,9 @@ fun BaseInput(
         textStyle = textStyle.copy(
             color = textColor,
             textAlign = textAlign,
-            fontSize = textStyle.fontSize.value.scaledSize().sp,
-            lineHeight = textStyle.lineHeight.value.scaledSize().sp,
-            letterSpacing = textStyle.letterSpacing.value.scaledSize().sp
+            fontFamily = fontFamily,
+            fontSize = fontSize.scaledSize().sp,
+            fontWeight = fontWeight
         ),
         visualTransformation = visualTransformation,
         keyboardActions = KeyboardActions(
@@ -129,7 +135,13 @@ fun BaseInput(
             OutlinedTextFieldDefaults.DecorationBox(
                 value = value,
                 placeholder = {
-                    TextBodyMediumRegular(text = placeholder, color = Color.Neutral40)
+                    Text(
+                        text = placeholder,
+                        fontSize = fontSize,
+                        fontFamily = fontFamily,
+                        fontWeight = fontWeight,
+                        color = placeholderTextColor
+                    )
                 },
                 innerTextField = innerTextField,
                 enabled = enable,
@@ -191,9 +203,10 @@ fun InputView(
     content: @Composable () -> Unit
 ) {
     Column(modifier = modifier) {
-        TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.x1))
-        Spacer(modifier = Modifier.height(space.x1))
-
+        if (label.isNotEmpty()) {
+            TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.x1))
+            Spacer(modifier = Modifier.height(space.x1))
+        }
         content()
 
         if (errorMessage.isNotBlank() || isError) {
