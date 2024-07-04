@@ -61,8 +61,8 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 groupId = "com.github.anggarasuci"
-                artifactId = "compose-lib"
-                version = "1.0.4"
+                artifactId = "compose"
+                version = "1.0.5"
             }
         }
     }
