@@ -62,7 +62,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.anggarasuci"
                 artifactId = "compose"
-                version = "1.0.9"
+                version = "1.0.10"
             }
         }
     }

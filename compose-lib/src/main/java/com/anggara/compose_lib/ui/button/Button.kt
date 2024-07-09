@@ -185,7 +185,6 @@ fun Button(
                     CircularProgressIndicator(
                         color = textColor,
                         modifier = Modifier
-                            .padding(vertical = space.x1 / 2)
                             .size(lineHeight?.scaledSize()?.dp ?: fontSize.scaledSize().dp)
 
                     )

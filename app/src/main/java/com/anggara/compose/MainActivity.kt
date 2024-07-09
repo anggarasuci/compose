@@ -248,9 +248,9 @@ fun ButtonPage(onBack: () -> Unit) {
         })
 
         Spacer(modifier = Modifier.height(space.x10))
-        com.anggara.compose_lib.ui.button.Button(text = "button display large asdsadas dasd adasd ada dada dsa asasd asd asd asda ad sdad",
-            fontSize = MaterialTheme.typography.displayLarge.fontSize.value,
-            lineHeight = MaterialTheme.typography.displayLarge.lineHeight.value,
+        com.anggara.compose_lib.ui.button.Button(text = "button",
+            fontSize = MaterialTheme.typography.bodySmall .fontSize.value,
+            lineHeight = MaterialTheme.typography.bodySmall.lineHeight.value,
             isLoading = isLoading,
             onClick = {
                 isLoading = true
