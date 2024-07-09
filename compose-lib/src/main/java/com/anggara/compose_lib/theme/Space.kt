@@ -6,7 +6,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-open class Space(
+data class Space(
     val x1: Dp = 4.dp,
     val x2: Dp = 8.dp,
     val x3: Dp = 12.dp,
@@ -30,9 +30,7 @@ open class Space(
     val buttonBorder: Dp = 1.1.dp
 )
 
-class SpaceImpl: Space()
-
-val LocalSpace = compositionLocalOf { SpaceImpl() }
+val LocalSpace = compositionLocalOf { Space() }
 val space: Space
     @Composable
     @ReadOnlyComposable

@@ -28,11 +28,12 @@ fun InputText(
     errorMessage: String = "",
     textAlign: TextAlign = TextAlign.Start,
     errorTextColor: Color = Color.DangerMain,
+    isNextSoftKeyboard: Boolean = false,
+    isDoneSoftKeyboard: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
     InputView(
         label = label,
-        isError = isError,
         errorMessage = errorMessage,
         errorTextColor = errorTextColor,
         modifier = modifier
@@ -47,6 +48,8 @@ fun InputText(
             fontFamily = fontFamily,
             fontWeight = fontWeight,
             fontSize = fontSize,
+            isNextSoftKeyboard = isNextSoftKeyboard,
+            isDoneSoftKeyboard = isDoneSoftKeyboard,
             onValueChange = { onValueChange.invoke(it) })
     }
 }

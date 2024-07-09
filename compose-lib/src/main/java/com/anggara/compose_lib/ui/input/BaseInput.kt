@@ -1,5 +1,6 @@
 package com.anggara.compose_lib.ui.input
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -31,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -55,8 +59,10 @@ import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.text.Text
 import com.anggara.compose_lib.ui.text.TextBodySmallRegular
 import com.anggara.compose_lib.utils.scaledSize
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun BaseInput(
     value: String,
@@ -81,6 +87,7 @@ fun BaseInput(
     radius: Dp = space.x2,
     trailingIconResId: Int = 0,
     isNextSoftKeyboard: Boolean = false,
+    isDoneSoftKeyboard: Boolean = false,
     onValueChange: (String) -> Unit = {},
     onDone: (String) -> Unit = {},
     onClick: () -> Unit = {},
@@ -99,6 +106,7 @@ fun BaseInput(
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
     BasicTextField(
         value = value,
@@ -108,6 +116,15 @@ fun BaseInput(
             .background(
                 color = if (!enable) disableBackgroundColor else backgroundColor
             )
+            .bringIntoViewRequester(bringIntoViewRequester)
+            .onFocusChanged {
+                if (it.isFocused) {
+                    coroutineScope.launch {
+                        delay(200)
+                        bringIntoViewRequester.bringIntoView()
+                    }
+                }
+            }
             .clickable { onClick.invoke() },
         textStyle = textStyle.copy(
             color = textColor,
@@ -123,12 +140,18 @@ fun BaseInput(
                 onDone.invoke(value)
             }
         ),
-        keyboardOptions = when {
-            isPasswordInput -> KeyboardOptions(keyboardType = KeyboardType.Password)
-            isNumberInput -> KeyboardOptions(keyboardType = KeyboardType.Number)
-            !isNextSoftKeyboard -> KeyboardOptions.Default
-            else -> KeyboardOptions(imeAction = ImeAction.Next)
-        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = when {
+                isPasswordInput -> KeyboardType.Password
+                isNumberInput -> KeyboardType.Number
+                else -> KeyboardType.Text
+            },
+            imeAction = when {
+                isDoneSoftKeyboard -> ImeAction.Done
+                isNextSoftKeyboard -> ImeAction.Next
+                else -> ImeAction.Default
+            }
+        ),
         interactionSource = interactionSource,
         singleLine = singleLine,
         decorationBox = @Composable { innerTextField ->
@@ -197,7 +220,6 @@ fun BaseInput(
 @Composable
 fun InputView(
     label: String,
-    isError: Boolean,
     errorMessage: String,
     modifier: Modifier = Modifier,
     errorTextColor: Color = Color.DangerMain,
@@ -208,9 +230,10 @@ fun InputView(
             TextBodySmallRegular(text = label, modifier = Modifier.padding(horizontal = space.x1))
             Spacer(modifier = Modifier.height(space.x1))
         }
+
         content()
 
-        if (errorMessage.isNotBlank() || isError) {
+        if (errorMessage.isNotBlank()) {
             Spacer(modifier = Modifier.height(space.x1))
             TextBodySmallRegular(
                 text = errorMessage,

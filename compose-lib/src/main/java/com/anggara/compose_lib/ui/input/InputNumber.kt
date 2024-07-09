@@ -28,9 +28,16 @@ fun InputNumber(
     errorMessage: String = "",
     textAlign: TextAlign = TextAlign.Start,
     errorTextColor: Color = Color.DangerMain,
+    isNextSoftKeyboard: Boolean = false,
+    isDoneSoftKeyboard: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
-    InputView(label = label, isError = isError, errorMessage = errorMessage, errorTextColor = errorTextColor, modifier = modifier) {
+    InputView(
+        label = label,
+        errorMessage = errorMessage,
+        errorTextColor = errorTextColor,
+        modifier = modifier
+    ) {
         BaseInput(
             isNumberInput = true,
             value = value,
@@ -42,6 +49,8 @@ fun InputNumber(
             fontFamily = fontFamily,
             fontWeight = fontWeight,
             fontSize = fontSize,
+            isNextSoftKeyboard = isNextSoftKeyboard,
+            isDoneSoftKeyboard = isDoneSoftKeyboard,
             onValueChange = { onValueChange.invoke(it) })
     }
 }

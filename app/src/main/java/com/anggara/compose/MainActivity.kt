@@ -16,11 +16,13 @@ import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +51,8 @@ import com.anggara.compose_lib.ui.input.InputText
 import com.anggara.compose_lib.ui.signature.SignatureView
 import com.anggara.compose_lib.ui.text.TextBodyMediumBold
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,8 +90,7 @@ fun Menu(
         TextBodyMediumBold(text = "Menu", textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(space.x4))
         Column(
-            modifier = Modifier
-                .verticalScroll(state = rememberScrollState())
+            modifier = Modifier.verticalScroll(state = rememberScrollState())
         ) {
             Button(onClick = { onClick.invoke("input") }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Input Text")
@@ -102,23 +105,20 @@ fun Menu(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onClick.invoke("bottomSheet") },
-                modifier = Modifier.fillMaxWidth()
+                onClick = { onClick.invoke("bottomSheet") }, modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Bottom Sheet")
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onClick.invoke("expandable") },
-                modifier = Modifier.fillMaxWidth()
+                onClick = { onClick.invoke("expandable") }, modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Expandable")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onClick.invoke("card") },
-                modifier = Modifier.fillMaxWidth()
+                onClick = { onClick.invoke("card") }, modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Card")
             }
@@ -159,32 +159,31 @@ fun InputPage(onBack: () -> Unit) {
     }
 
     BaseScreen(onBack = onBack) {
-        InputText(
-            label = "Name",
+        InputPassword(label = "Password",
+            placeholder = "Input Password",
+            value = statePassword,
+            isNextSoftKeyboard = true,
+            onValueChange = { statePassword = it })
+        Spacer(modifier = Modifier.height(space.x10))
+
+        InputText(label = "Name",
             isError = state == "error",
             errorMessage = if (state == "error") "Error Name Please Input Other Name" else "",
             placeholder = "Input Name, type `error` for trigger error for example only",
             value = state,
+            isNextSoftKeyboard = true,
             onValueChange = { state = it })
         Spacer(modifier = Modifier.height(space.x10))
 
-        InputPassword(
-            label = "Password",
-            placeholder = "Input Password",
-            value = statePassword,
-            onValueChange = { statePassword = it })
-        Spacer(modifier = Modifier.height(space.x10))
-
-        InputNumber(
-            label = "Number",
+        InputNumber(label = "Number",
             placeholder = "Input Number",
             value = stateNumber,
+            isDoneSoftKeyboard = true,
             onValueChange = { stateNumber = it })
 
         Spacer(modifier = Modifier.height(space.x10))
 
-        IconButton(
-            vector = Icons.Default.ChevronLeft,
+        IconButton(vector = Icons.Default.ChevronLeft,
             borderWidth = 0.dp,
             tint = Color.PrimaryMain,
             size = 60.dp,
@@ -204,17 +203,62 @@ fun SignaturePage(onBack: () -> Unit) {
 
 @Composable
 fun ButtonPage(onBack: () -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
+    var isLoading by remember {
+        mutableStateOf(false)
+    }
     BaseScreen(onBack = onBack) {
-        LeadingTrailingButton(
-            text = "Test",
+        LeadingTrailingButton(text = "Test",
             leadingIconVector = Icons.Filled.AddAPhoto,
             trailingIconVector = Icons.Default.ChevronRight,
-            onClick = {}
-        )
+            onClick = {})
         Spacer(modifier = Modifier.height(space.x10))
-        LeadingButton(text = "Tes 2", iconVector = Icons.Filled.AddAPhoto) { }
+        LeadingButton(text = "Tes 2",
+            iconVector = Icons.Filled.AddAPhoto,
+            isLoading = isLoading,
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight.value,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize.value,
+            onClick = {
+                isLoading = true
+                coroutineScope.launch {
+                    delay(3000)
+                    isLoading = false
+                }
+            })
         Spacer(modifier = Modifier.height(space.x10))
-        TrailingButton(text = "Tes 3", iconVector = Icons.Filled.AddAPhoto) { }
+        TrailingButton(text = "Tes 3",
+            iconVector = Icons.Filled.AddAPhoto,
+            isLoading = isLoading,
+            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight.value,
+            fontSize = MaterialTheme.typography.bodyLarge.fontSize.value,
+            onClick = {
+                isLoading = true
+                coroutineScope.launch {
+                    delay(3000)
+                    isLoading = false
+                }
+            })
+        Spacer(modifier = Modifier.height(space.x10))
+        com.anggara.compose_lib.ui.button.Button(text = "text", isLoading = isLoading, onClick = {
+            isLoading = true
+            coroutineScope.launch {
+                delay(3000)
+                isLoading = false
+            }
+        })
+
+        Spacer(modifier = Modifier.height(space.x10))
+        com.anggara.compose_lib.ui.button.Button(text = "button display large asdsadas dasd adasd ada dada dsa asasd asd asd asda ad sdad",
+            fontSize = MaterialTheme.typography.displayLarge.fontSize.value,
+            lineHeight = MaterialTheme.typography.displayLarge.lineHeight.value,
+            isLoading = isLoading,
+            onClick = {
+                isLoading = true
+                coroutineScope.launch {
+                    delay(3000)
+                    isLoading = false
+                }
+            })
     }
 }
 
@@ -243,88 +287,66 @@ fun BottomSheetPage(onBack: () -> Unit) {
 
         val items: List<OptionModel> = listOf(
             OptionModel(
-                value = "1",
-                name = "Option 1",
-                description = "Description 1"
+                value = "1", name = "Option 1", description = "Description 1"
             ),
             OptionModel(
-                value = "2",
-                name = "Option 2",
-                description = "Description 2"
+                value = "2", name = "Option 2", description = "Description 2"
             ),
             OptionModel(
-                value = "3",
-                name = "Option 3"
+                value = "3", name = "Option 3"
             ),
             OptionModel(
-                value = "4",
-                name = "Option 4",
-                description = "Description 4"
+                value = "4", name = "Option 4", description = "Description 4"
             ),
             OptionModel(
-                value = "5",
-                name = "Option 5"
+                value = "5", name = "Option 5"
             ),
             OptionModel(
-                value = "6",
-                name = "Option 6"
+                value = "6", name = "Option 6"
             ),
             OptionModel(
-                value = "7",
-                name = "Option 7"
+                value = "7", name = "Option 7"
             ),
             OptionModel(
-                value = "8",
-                name = "Option 8"
+                value = "8", name = "Option 8"
             ),
             OptionModel(
-                value = "9",
-                name = "Option 9"
+                value = "9", name = "Option 9"
             ),
             OptionModel(
-                value = "10",
-                name = "Option 10"
+                value = "10", name = "Option 10"
             ),
             OptionModel(
-                value = "11",
-                name = "Option 11"
+                value = "11", name = "Option 11"
             ),
         )
 
-        TrailingButton(
-            text = "Show Default Bottom Sheet",
+        TrailingButton(text = "Show Default Bottom Sheet",
             iconVector = Icons.Default.ChevronRight,
             onClick = {
                 defaultIsShown = true
-            }
-        )
+            })
         Spacer(modifier = Modifier.height(space.x10))
-        TrailingButton(
-            text = selectedValue.ifEmpty { "Show Selection Bottom Sheet" },
+        TrailingButton(text = selectedValue.ifEmpty { "Show Selection Bottom Sheet" },
             iconVector = Icons.Default.ChevronRight,
             onClick = {
                 selectionIsShown = true
-            }
-        )
+            })
 
         Spacer(modifier = Modifier.height(space.x10))
-        TrailingButton(
-            text = selectedValue.ifEmpty { "Show Selection with Confirm Bottom Sheet" },
+        TrailingButton(text = selectedValue.ifEmpty { "Show Selection with Confirm Bottom Sheet" },
             iconVector = Icons.Default.ChevronRight,
             onClick = {
                 selectionConfirmIsShown = true
-            }
-        )
+            })
 
         Spacer(modifier = Modifier.height(space.x10))
-        TrailingButton(
-            text = selectedValues.joinToString(",")
-                .ifEmpty { "Multiple Selection with Confirm Bottom Sheet" },
+        TrailingButton(text = selectedValues.joinToString(",")
+            .ifEmpty { "Multiple Selection with Confirm Bottom Sheet" },
             iconVector = Icons.Default.ChevronRight,
             onClick = {
                 multipleSelectionConfirmIsShown = true
-            }
-        )
+            })
 
 //        if (defaultIsShown) {
 //            BottomSheet(isShown = defaultIsShown, title = "Default Bottom Sheet", onDismiss = {
@@ -332,49 +354,39 @@ fun BottomSheetPage(onBack: () -> Unit) {
 //            }) { }
 //        }
 
-        BottomSheetSelection(
-            isShown = selectionIsShown,
+        BottomSheetSelection(isShown = selectionIsShown,
             selectedValue = selectedValue,
             title = "Selection Bottom Sheet",
             data = items,
             onSelect = { selectedValue = it },
-            onDismiss = { selectionIsShown = false }
-        )
+            onDismiss = { selectionIsShown = false })
 
-        BottomSheetSelectionWithConfirmation(
-            isShown = selectionConfirmIsShown,
+        BottomSheetSelectionWithConfirmation(isShown = selectionConfirmIsShown,
             selectedValue = selectedValue,
             title = "Selection with Confirm Bottom Sheet",
             data = items,
             onOk = { selectedValue = it },
             onCancel = { },
-            onDismiss = { selectionConfirmIsShown = false }
-        )
+            onDismiss = { selectionConfirmIsShown = false })
 
-        BottomSheetMultipleSelection(
-            isShown = multipleSelectionConfirmIsShown,
+        BottomSheetMultipleSelection(isShown = multipleSelectionConfirmIsShown,
             selectedValues = selectedValues,
             title = "Multiple Selection",
             data = items,
             onOk = { selectedValues = it },
             onCancel = { },
-            onDismiss = { multipleSelectionConfirmIsShown = false }
-        )
+            onDismiss = { multipleSelectionConfirmIsShown = false })
     }
 }
 
 @Composable
 fun ExpandablePage(onBack: () -> Unit) {
     BaseScreen(onBack = onBack) {
-        ExpandableView(
-            expandableHoverColor = Color.Neutral10,
-            headContainerModifier = Modifier
-                .padding(space.x2),
+        ExpandableView(expandableHoverColor = Color.Neutral10,
+            headContainerModifier = Modifier.padding(space.x2),
             headContent = {
                 TextBodyMediumBold(
-                    text = "Expandable",
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    text = "Expandable", modifier = Modifier.fillMaxWidth()
                 )
             }) {
             TextBodyMediumRegular(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sem viverra aliquet eget sit amet. Nec dui nunc mattis enim ut. Cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla. Aliquet risus feugiat in ante metus dictum. Molestie a iaculis at erat.")

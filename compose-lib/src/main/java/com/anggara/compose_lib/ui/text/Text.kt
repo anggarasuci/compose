@@ -1,6 +1,5 @@
 package com.anggara.compose_lib.ui.text
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,11 +27,9 @@ fun Text(
     textAlign: TextAlign? = null,
     fontFamily: FontFamily? = jakartaSans,
 ) {
-    val style = MaterialTheme.typography.bodySmall
     Text(
         text = text,
         overflow = overflow,
-        style = style,
         fontFamily = fontFamily,
         fontWeight = fontWeight,
         lineHeight = lineHeight?.scaledSize()?.sp ?: TextUnit.Unspecified,
