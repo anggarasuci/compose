@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -26,6 +27,7 @@ import com.anggara.compose_lib.theme.PrimarySurface
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.text.TextBodyMedium
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+import com.anggara.compose_lib.utils.Constant
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +52,10 @@ fun BottomSheetSelection(
         title = title,
         bottomSheetState = bottomSheetState,
         onDismiss = { onDismiss.invoke() }) {
-        LazyColumn(state = rememberLazyListState(), modifier = modifier) {
+        LazyColumn(
+            state = rememberLazyListState(),
+            modifier = modifier.fillMaxHeight(Constant.MAX_HEIGHT_BOTTOM_SHEET)
+        ) {
             items(data) {
                 Row(
                     modifier = Modifier

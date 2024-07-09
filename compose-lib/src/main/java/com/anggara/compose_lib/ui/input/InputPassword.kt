@@ -43,6 +43,7 @@ fun InputPassword(
             value = value,
             placeholder = placeholder,
             textAlign = textAlign,
+            singleLine = true,
             borderColor = if (isError) errorTextColor else borderColor,
             textColor = textColor,
             placeholderTextColor = placeholderTextColor,

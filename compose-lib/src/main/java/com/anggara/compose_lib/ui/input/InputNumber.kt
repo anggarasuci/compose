@@ -49,6 +49,7 @@ fun InputNumber(
             fontFamily = fontFamily,
             fontWeight = fontWeight,
             fontSize = fontSize,
+            singleLine = true,
             isNextSoftKeyboard = isNextSoftKeyboard,
             isDoneSoftKeyboard = isDoneSoftKeyboard,
             onValueChange = { onValueChange.invoke(it) })

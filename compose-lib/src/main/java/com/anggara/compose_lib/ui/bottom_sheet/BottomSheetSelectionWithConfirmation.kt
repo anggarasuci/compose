@@ -35,6 +35,7 @@ import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.button.Button
 import com.anggara.compose_lib.ui.text.TextBodyMedium
 import com.anggara.compose_lib.ui.text.TextBodyMediumRegular
+import com.anggara.compose_lib.utils.Constant
 import com.anggara.compose_lib.utils.clickableWithRipple
 import kotlinx.coroutines.launch
 
@@ -88,7 +89,7 @@ fun BottomSheetSelectionWithConfirmation(
         onDismiss = { onDismiss.invoke() }) {
         Box(
             modifier = Modifier
-                .fillMaxHeight(0.9f)
+                .fillMaxHeight(Constant.MAX_HEIGHT_BOTTOM_SHEET)
                 .fillMaxWidth()
         ) {
             LazyColumn(

@@ -44,6 +44,7 @@ fun InputText(
             placeholder = placeholder,
             borderColor = if (isError) errorTextColor else borderColor,
             textColor = textColor,
+            singleLine = true,
             placeholderTextColor = placeholderTextColor,
             fontFamily = fontFamily,
             fontWeight = fontWeight,
