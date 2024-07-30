@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral90
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.utils.clickableWithRipple
@@ -43,12 +45,14 @@ fun ExpandableView(
     headContainerModifier: Modifier = Modifier,
     bodyContainerModifier: Modifier = Modifier,
     expandableHoverColor: Color = Color.Transparent,
+    backgroundColor: Color = Color.Neutral10,
+    expandBackgroundColor: Color = Color.Neutral10,
     withArrow: Boolean = true,
     arrowSize: Dp = space.x8,
     arrowSpaceEnd: Dp = space.x2,
     arrowAlignment: Alignment = Alignment.TopEnd,
     arrowColor: Color = Color.Neutral90,
-    onExpanded: (isExpanded: Boolean) -> Unit,
+    onExpanded: (isExpanded: Boolean) -> Unit = {},
     headContent: @Composable () -> Unit,
     bodyContent: @Composable () -> Unit
 ) {
@@ -62,7 +66,11 @@ fun ExpandableView(
         label = ""
     )
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = Modifier
+            .background(color = if (isExpanded) expandBackgroundColor else backgroundColor)
+            .then(modifier)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

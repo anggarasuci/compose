@@ -33,6 +33,7 @@ import com.anggara.compose.ui.theme.ComposeComponentTheme
 import com.anggara.compose_lib.theme.Neutral10
 import com.anggara.compose_lib.theme.Neutral20
 import com.anggara.compose_lib.theme.Neutral30
+import com.anggara.compose_lib.theme.Neutral50
 import com.anggara.compose_lib.theme.PrimaryMain
 import com.anggara.compose_lib.theme.space
 import com.anggara.compose_lib.ui.bottom_sheet.BottomSheetMultipleSelection
@@ -382,7 +383,10 @@ fun BottomSheetPage(onBack: () -> Unit) {
 @Composable
 fun ExpandablePage(onBack: () -> Unit) {
     BaseScreen(onBack = onBack) {
-        ExpandableView(expandableHoverColor = Color.Neutral10,
+        ExpandableView(
+            backgroundColor = Color.Neutral10,
+            expandBackgroundColor = Color.Neutral50,
+            expandableHoverColor = Color.Neutral10,
             headContainerModifier = Modifier.padding(space.x2),
             headContent = {
                 TextBodyMediumBold(
