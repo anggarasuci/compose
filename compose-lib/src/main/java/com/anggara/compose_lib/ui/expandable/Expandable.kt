@@ -48,6 +48,7 @@ fun ExpandableView(
     arrowSpaceEnd: Dp = space.x2,
     arrowAlignment: Alignment = Alignment.TopEnd,
     arrowColor: Color = Color.Neutral90,
+    onExpanded: (isExpanded: Boolean) -> Unit,
     headContent: @Composable () -> Unit,
     bodyContent: @Composable () -> Unit
 ) {
@@ -67,6 +68,7 @@ fun ExpandableView(
                 .fillMaxWidth()
                 .clickableWithRipple(color = expandableHoverColor) {
                     isExpanded = !isExpanded
+                    onExpanded.invoke(isExpanded)
                 }
                 .then(headContainerModifier),
         ) {
