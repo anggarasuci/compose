@@ -10,14 +10,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -64,41 +62,32 @@ fun ExpandableView(
     )
 
     Column(modifier = modifier) {
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickableWithRipple(color = expandableHoverColor) {
                     isExpanded = !isExpanded
                 }
                 .then(headContainerModifier),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier.weight(1f),
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = if (withArrow) arrowSize.plus(space.x2) else 0.dp)
-                ) {
-                    headContent()
-                }
-                if (withArrow) {
-                    Row(modifier = Modifier.align(arrowAlignment)) {
-                        Icon(
-                            imageVector = Icons.Default.ChevronRight,
-                            contentDescription = "expandable arrow",
-                            tint = arrowColor,
-                            modifier = Modifier
-                                .size(arrowSize)
-                                .rotate(rotationAngle),
-                        )
-                        Spacer(modifier = Modifier.width(arrowSpaceEnd))
-                    }
+                headContent()
+            }
+            if (withArrow) {
+                Row(modifier = Modifier.align(arrowAlignment)) {
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "expandable arrow",
+                        tint = arrowColor,
+                        modifier = Modifier
+                            .size(arrowSize)
+                            .rotate(rotationAngle),
+                    )
+                    Spacer(modifier = Modifier.width(arrowSpaceEnd))
                 }
             }
-
         }
         Spacer(modifier = Modifier.height(space.x2))
         AnimatedVisibility(visible = isExpanded,
