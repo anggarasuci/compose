@@ -386,7 +386,7 @@ fun ExpandablePage(onBack: () -> Unit) {
             headContainerModifier = Modifier.padding(space.x2),
             headContent = {
                 TextBodyMediumBold(
-                    text = "Expandable", modifier = Modifier.fillMaxWidth()
+                    text = "Expandable asdas dasdsadasd asd asd asdsad asdas das da dad ad ad asd asdasda sdasd asdasdas dasd asdasd asd adas dsa", modifier = Modifier.fillMaxWidth()
                 )
             }) {
             TextBodyMediumRegular(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sem viverra aliquet eget sit amet. Nec dui nunc mattis enim ut. Cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla. Aliquet risus feugiat in ante metus dictum. Molestie a iaculis at erat.")

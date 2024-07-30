@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
@@ -45,6 +47,8 @@ fun ExpandableView(
     expandableHoverColor: Color = Color.Transparent,
     withArrow: Boolean = true,
     arrowSize: Dp = space.x8,
+    arrowSpaceEnd: Dp = space.x2,
+    arrowAlignment: Alignment = Alignment.TopEnd,
     arrowColor: Color = Color.Neutral90,
     headContent: @Composable () -> Unit,
     bodyContent: @Composable () -> Unit
@@ -73,19 +77,28 @@ fun ExpandableView(
             Box(
                 modifier = Modifier.weight(1f),
             ) {
-                headContent()
-            }
-            if (withArrow) {
-                Spacer(modifier = Modifier.height(space.x2))
-                Icon(
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = "expandable arrow",
-                    tint = arrowColor,
+                Row(
                     modifier = Modifier
-                        .size(arrowSize)
-                        .rotate(rotationAngle),
-                )
+                        .fillMaxWidth()
+                        .padding(end = if (withArrow) arrowSize.plus(space.x2) else 0.dp)
+                ) {
+                    headContent()
+                }
+                if (withArrow) {
+                    Row(modifier = Modifier.align(arrowAlignment)) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = "expandable arrow",
+                            tint = arrowColor,
+                            modifier = Modifier
+                                .size(arrowSize)
+                                .rotate(rotationAngle),
+                        )
+                        Spacer(modifier = Modifier.width(arrowSpaceEnd))
+                    }
+                }
             }
+
         }
         Spacer(modifier = Modifier.height(space.x2))
         AnimatedVisibility(visible = isExpanded,
