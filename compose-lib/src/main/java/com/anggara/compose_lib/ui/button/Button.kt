@@ -169,8 +169,6 @@ fun Button(
         onClick = { onClick.invoke() }
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
