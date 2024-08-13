@@ -388,6 +388,7 @@ fun ExpandablePage(onBack: () -> Unit) {
             expandBackgroundColor = Color.Neutral50,
             expandableHoverColor = Color.Neutral10,
             headContainerModifier = Modifier.padding(space.x2),
+            isWholeContentClickableExpandable = true,
             headContent = {
                 TextBodyMediumBold(
                     text = "Expandable asdas dasdsadasd asd asd asdsad asdas das da dad ad ad asd asdasda sdasd asdasdas dasd asdasd asd adas dsa", modifier = Modifier.fillMaxWidth()

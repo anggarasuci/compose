@@ -52,6 +52,7 @@ fun ExpandableView(
     arrowSpaceEnd: Dp = space.x2,
     arrowAlignment: Alignment = Alignment.TopEnd,
     arrowColor: Color = Color.Neutral90,
+    isWholeContentClickableExpandable: Boolean = false,
     onExpanded: (isExpanded: Boolean) -> Unit = {},
     headContent: @Composable () -> Unit,
     bodyContent: @Composable () -> Unit
@@ -65,19 +66,22 @@ fun ExpandableView(
         animationSpec = tween(durationMillis = 300, easing = LinearEasing),
         label = ""
     )
+    val clickableModifier = Modifier
+        .clickableWithRipple(color = expandableHoverColor) {
+            isExpanded = !isExpanded
+            onExpanded.invoke(isExpanded)
+        }
 
     Column(
         modifier = Modifier
+            .then(if (isWholeContentClickableExpandable) clickableModifier else Modifier)
             .background(color = if (isExpanded) expandBackgroundColor else backgroundColor)
             .then(modifier)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickableWithRipple(color = expandableHoverColor) {
-                    isExpanded = !isExpanded
-                    onExpanded.invoke(isExpanded)
-                }
+                .then(if (!isWholeContentClickableExpandable) clickableModifier else Modifier)
                 .then(headContainerModifier),
         ) {
             Row(
