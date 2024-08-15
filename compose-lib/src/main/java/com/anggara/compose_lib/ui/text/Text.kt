@@ -8,6 +8,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -28,6 +29,7 @@ fun Text(
     textAlign: TextAlign? = null,
     withTabular: Boolean = false,
     fontFamily: FontFamily? = jakartaSans,
+    textDecoration: TextDecoration? = null
 ) {
     /**
      * fontFeatureSettings - The advanced typography settings provided by font.
@@ -41,7 +43,8 @@ fun Text(
         color = color,
         fontFamily = fontFamily,
         textAlign = textAlign ?: TextAlign.Unspecified,
-        fontFeatureSettings = if (withTabular) "tnum" else null
+        fontFeatureSettings = if (withTabular) "tnum" else null,
+        textDecoration = textDecoration
     )
 
     Text(
